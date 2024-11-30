@@ -7,18 +7,45 @@
 
     <body>
         <center>
-        <h1>Hello from node & express server!</h1>
+        <h1>Herkkuja</h1>
 
         <div id="sisältö"></div>
 
         <script>
+            
+            async function fetchData() //asynkroninen funktio (async function), joka määrittelee, että funktio tulee käsittelemään asynkronisia toimintoja, kuten verkko- tai tiedostopyyntöjä, aikaviiveitä tai muutoksia, jotka tapahtuvat tulevaisuudessa.
+            
+            {
 
             document.getElementById("sisältö").innerHTML = "<h4>Ladataan herkkuja..</h4>"
 
-            fetch("http://localhost:3000/api/herkut")
-            .then(res => res.json()) // Json-muodosta JavaScript-muotoon
-            .then(data => console.log(data)) // sitten kun aiempi komento toteutunut, tämä. res:iin sisältyy saatu vastaus
+            // Taulukon alustus:
+            var x = `<table><thead><tr><th>Herkun nimi</th><th>Tuotekoodi</th></tr></thead><tbody>`;//templatestring ` avulla, jolloin ei tarvitse aina rivinvaihdoissa käyttää + 
+                try {
+                const response = await fetch("http://localhost:3000/api/herkut")
 
+                const herkkudata = await response.json() // Muuttaa json -> javascript muotoon
+                
+                await herkkudata.map(h => // loopataan läpi oliot map funktiolla, h on 1 herkkuolio
+                {
+                    x += `<tr><td>${h.name}</td><td>${h.id}</td></tr>`
+                })
+
+                //taulukko päätetään ja renderöidään html elementtiin
+                x += `</tbody></table>`
+                document.getElementById("sisältö").innerHTML = x
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+            
+
+            //VANHA VERSIO:
+            //fetch("http://localhost:3000/api/herkut")
+            //.then(res => res.json()) // Json-muodosta JavaScript-muotoon
+            //.then(data => console.log(data)) // sitten kun aiempi komento toteutunut, tämä. res:iin sisältyy saatu vastaus
+            }
+
+            fetchData() // kutsuva funktio
         </script>
         </center>
     </body>
