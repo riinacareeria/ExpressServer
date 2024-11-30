@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+    <head>
+        <title>Herkut</title>
+    </head>
+
+    <body>
+        <center>
+        <h1>Hello from node & express server!</h1>
+
+        <div id="sisältö"></div>
+
+        <script>
+
+            document.getElementById("sisältö").innerHTML = "<h4>Ladataan herkkuja..</h4>"
+
+            fetch("http://localhost:3000/api/herkut")
+            .then(res => res.json()) // Json-muodosta JavaScript-muotoon
+            .then(data => console.log(data)) // sitten kun aiempi komento toteutunut, tämä. res:iin sisältyy saatu vastaus
+
+        </script>
+        </center>
+    </body>
+</html>
